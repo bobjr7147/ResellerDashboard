@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseller Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to the Reseller Dashboard</h1>
+    <form id="profitForm">
+        <label for="costPrice">Cost Price: </label>
+        <input type="number" id="costPrice" required>
+        <br>
+        <label for="sellingPrice">Selling Price: </label>
+        <input type="number" id="sellingPrice" required>
+        <br>
+        <button type="submit">Calculate Profit</button>
+    </form>
+
+    <h3>Profit: <span id="profitResult">0</span></h3>
+
+    <script>
+        document.getElementById("profitForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const costPrice = document.getElementById("costPrice").value;
+            const sellingPrice = document.getElementById("sellingPrice").value;
+
+            fetch(`/calculateProfit?costPrice=${costPrice}&sellingPrice=${sellingPrice}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("profitResult").textContent = data;
+                })
+                .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
